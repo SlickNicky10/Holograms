@@ -1,0 +1,14 @@
+{
+    "name": "Holograms",
+    "version": "1.0.0",
+    "description": "Interact with the Holograms API with Drupi.",
+    "main": "dist/index.js",
+    "author": "SlickNicky10",
+    "contributors": [],
+    "tags": [],
+    "dependencies": ["PluginLoaded"],
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/SlickNicky10/Holograms"
+    }
+}
