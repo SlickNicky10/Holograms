@@ -7,15 +7,18 @@ require("PluginLoaded")("Holograms", () => {
         Hologram = getClass("com.sainttx.holograms.api.Hologram").getDeclaredConstructors()[0],
         TextLineClass = getClass("com.sainttx.holograms.api.line.TextLine"),
         ItemLineClass = getClass("com.sainttx.holograms.api.line.ItemLine"),
-        TextLine = TextLineClass.getDeclaredConstructors()[0],
-        ItemLine = ItemLineClass.getDeclaredConstructors()[0];
+        TextLine = TextLineClass.getConstructor(getClass("com.sainttx.holograms.api.Hologram"), java.lang.Class.forName("java.lang.String")),
+        ItemLine = ItemLineClass.getConstructor(getClass("com.sainttx.holograms.api.Hologram"), java.lang.Class.forName("org.bukkit.inventory.ItemStack"));
+
+    if(!ItemLine.isAccessible()) ItemLine.setAccessible(true);
+    if(!TextLine.isAccessible()) TextLine.setAccessible(true);
 
     function getHologramManager(){
         return hologramManager;
     }
 
-    function create(id, location){
-        hologramManager.addActiveHologram(Hologram.newInstance(id, location));
+    function create(id, location, persistent = false){
+        hologramManager.addActiveHologram(Hologram.newInstance(id, location, persistent));
         return hologramManager.getHologram(id);
     }
 
@@ -50,24 +53,21 @@ require("PluginLoaded")("Holograms", () => {
     }
 
     function addItemLine(hologram, itemstack){
-        if(!ItemLine.isAccessible()) ItemLine.setAccessible(true);
-        const toRaw = ItemLineClass.getDeclaredMethod("itemstackToRaw", java.lang.Class.forName("org.bukkit.inventory.ItemStack"));
-        if(!toRaw.isAccessible()) toRaw.setAccessible(true);
-        hologram.addLine(ItemLine.newInstance(hologram, "item:" + toRaw.invoke(null, itemstack), itemstack));
+        hologram.addLine(ItemLine.newInstance(hologram, itemstack));
     }
 
-    function removeLine(hologram, index){
+    function removeLine(hologram, index, save = true){
         if(index >= 0 && index <= hologram.getLines().size() - 1){
             hologram.removeLine(hologram.getLine(index));
             if(hologram.getLines().size() === 0){
                 hologramManager.deleteHologram(hologram);
             } else {
-                hologramManager.saveHologram(hologram);
+                if(save) hologramManager.saveHologram(hologram);
             }
         }
     }
 
-    function setLine(hologram, index, text){
+    function setLine(hologram, index, text, save = true){
         if(index >= 0 && index <= hologram.getLines().size() - 1){
             const line = hologram.getLine(index);
             if(TextLineClass.isAssignableFrom(line.getClass())){
@@ -76,23 +76,20 @@ require("PluginLoaded")("Holograms", () => {
                 hologram.removeLine(line);
                 hologram.addLine(TextLine.newInstance(hologram, text), index);
             }
-            hologramManager.saveHologram(hologram);
+            if(save) hologramManager.saveHologram(hologram);
         }
     }
 
-    function setItemLine(hologram, index, itemstack){
+    function setItemLine(hologram, index, itemstack, save = true){
         if(index >= 0 && index <= hologram.getLines().size() - 1){
             const line = hologram.getLine(index);
-            if(!ItemLine.isAccessible()) ItemLine.setAccessible(true);
             if(ItemLineClass.isAssignableFrom(line.getClass())){
                 line.setItem(itemstack);
             } else {
                 hologram.removeLine(line);
-                const toRaw = ItemLineClass.getDeclaredMethod("itemstackToRaw", java.lang.Class.forName("org.bukkit.inventory.ItemStack"));
-                if(!toRaw.isAccessible()) toRaw.setAccessible(true);
-                hologram.addLine(ItemLine.newInstance(hologram, "item:" + toRaw.invoke(null, itemstack), itemstack), index);
+                hologram.addLine(ItemLine.newInstance(hologram, itemstack), index);
             }
-            hologramManager.saveHologram(hologram);
+            if(save) hologramManager.saveHologram(hologram);
         }
     }
 

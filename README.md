@@ -19,7 +19,7 @@ From here, you have full access to the API.
 
 `getHologramManager()` *(HologramManager)* - returns the raw HologramManager that the Holograms module is using.
 
-`create(String id, Location location)` *(Hologram)* - creates a new hologram at the given location with the given ID, and then returns it.
+`create(String id, Location location, Boolean persist [optional])` *(Hologram)* - creates a new hologram at the given location with the given ID, and then returns it.
 
 `get(String id)` *(Hologram)* - gets a hologram given its ID.
 
@@ -37,11 +37,11 @@ From here, you have full access to the API.
 
 `addItemLine(Hologram hologram, ItemStack itemstack)` - adds an item line to the given hologram.
 
-`removeLine(Hologram hologram, Integer index)` - deletes a line from the given hologram.
+`removeLine(Hologram hologram, Integer index, Boolean save [optional])` - deletes a line from the given hologram.
 
-`setLine(Hologram hologram, Integer index, String text)` - replaces an existing text or item line on the given hologram with a new text line.
+`setLine(Hologram hologram, Integer index, String text, Boolean save [optional])` - replaces an existing text or item line on the given hologram with a new text line.
 
-`setItemLine(Hologram hologram, Integer index, ItemStack itemstack)` - replaces an existing text or item line on the given hologram with a new item line.
+`setItemLine(Hologram hologram, Integer index, ItemStack itemstack, Boolean save [optional])` - replaces an existing text or item line on the given hologram with a new item line.
 
 
 ### Backwards compatibility with the legacy Holograms expansion
