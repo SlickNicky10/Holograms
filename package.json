@@ -1,6 +1,6 @@
 {
     "name": "Holograms",
-    "version": "1.0.1",
+    "version": "1.0.2",
     "description": "Interact with the Holograms API with Drupi.",
     "main": "dist/index.js",
     "author": "SlickNicky10",

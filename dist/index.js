@@ -8,7 +8,7 @@ require("PluginLoaded")("Holograms", function () {
   },
       plugin = org.bukkit.Bukkit.getPluginManager().getPlugin("Holograms"),
       hologramManager = getClass("com.sainttx.holograms.HologramPlugin").cast(plugin).getHologramManager(),
-      Hologram = getClass("com.sainttx.holograms.api.Hologram").getDeclaredConstructors()[0],
+      Hologram = getClass("com.sainttx.holograms.api.Hologram").getConstructor(java.lang.Class.forName("java.lang.String"), java.lang.Class.forName("org.bukkit.Location"), java.lang.Boolean.TYPE),
       TextLineClass = getClass("com.sainttx.holograms.api.line.TextLine"),
       ItemLineClass = getClass("com.sainttx.holograms.api.line.ItemLine"),
       TextLine = TextLineClass.getConstructor(getClass("com.sainttx.holograms.api.Hologram"), java.lang.Class.forName("java.lang.String")),
